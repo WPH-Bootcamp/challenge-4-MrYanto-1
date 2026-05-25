@@ -58,3 +58,16 @@ function getNumber(label) {
     }
   }
 }
+
+function getOperator() {
+  while (true) {
+    const op = prompt('Pick an operator (+, -, *, /, %, **): ');
+    if (operations[op.trim()]) {
+      return op.trim();
+    }
+
+    console.log(
+      `Invalid operator! Choose from ${Object.keys(operations.join(', '))}    `
+    );
+  }
+}
