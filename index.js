@@ -8,7 +8,7 @@ console.log('What it can do:');
 console.log("-Find the result you're looking");
 console.log('-Integer or Decimals');
 console.log('-Positive or Negative number');
-console.log('-Even or Odd number \n');
+console.log('-Even or Odd number');
 
 // Available Operators
 
@@ -46,13 +46,15 @@ const operations = {
   '**': power,
 };
 
-function getNumber(label) {
+function getNumber(label, op = null) {
   while (true) {
     const input = prompt(label);
     const num = Number(input);
 
     if (input.trim() === '' || isNaN(num)) {
       console.log('Invalid Input, please enter a number!');
+    } else if ((op === '/' || op === '%') && num === 0) {
+      console.log('Cannot divide by zero!');
     } else {
       return num;
     }
@@ -67,7 +69,7 @@ function getOperator() {
     }
 
     console.log(
-      `Invalid operator! Choose from ${Object.keys(operations.join(', '))}    `
+      `Invalid operator! Choose from ${Object.keys(operations).join(', ')}`
     );
   }
 }
@@ -75,13 +77,14 @@ function getOperator() {
 // Main Loop
 
 while (true) {
+  console.log('');
   const num1 = getNumber('Enter your first number: ');
   const op = getOperator();
-  const num2 = getNumber('Enter your second number: ');
+  const num2 = getNumber('Enter your second number: ', op);
 
   const result = operations[op](num1, num2);
   const IntDec = Number.isInteger(result) ? 'Integer' : 'Decimals';
-  const PosNeg = result < 0 ? 'Negative' : 'Positive';
+  const PosNeg = result < 0 ? 'Negative' : result > 0 ? 'Positive' : 'Zero';
   const EvenOdd = result % 2 === 0 ? 'Even' : 'Odd';
   console.log(`\n Your result of ${num1} ${op} ${num2} is ${result}`);
   console.log(' =============================');
@@ -90,7 +93,8 @@ while (true) {
   console.log(`  Positive or Negative: ${PosNeg}`);
   console.log(`  Even or Odd: ${EvenOdd}`);
 
-  const again = prompt('Want to calculate another number? y/n: ').trim()
-    .toLowerCase;
+  const again = prompt('Want to calculate another number? y/n: ')
+    .trim()
+    .toLowerCase();
   if (again !== 'y') break;
 }
